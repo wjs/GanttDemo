@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Gantt Demo</title>
+	<link rel="stylesheet" href="css/avegantt.css">
+	<script src="js/jquery.min.js"></script>
+	<script src="js/UUID.js"></script>
+	<script src="js/avegantt.js"></script>
+</head>
+<body>
+	<div id="task_dialog">
+		<div class="task_dialog_title">Add or Edit Task</div>
+		<div class="task_dialog_dedail">
+			<label for="task_dialog_description">Description:</label>
+			<input type="text" id="task_dialog_description">
+			<br>
+			<label for="task_dialog_start_time">Start Time:</label>
+			<input type="date" id="task_dialog_start_time">
+			<br>
+			<label for="task_dialog_duration">Duration:</label>
+			<input type="number" id="task_dialog_duration" min="0">
+
+			<input type="hidden" name="parent_tree_node_id" id="parent_tree_node_id">
+		</div>
+		<div class="task_dialog_control">
+			<span id="task_dialog_btn_save">Save</span>
+			<span id="task_dialog_btn_cancel">Cancel</span>
+			<span id="task_dialog_btn_delete">Delete</span>
+		</div>
+	</div>
+
+	<div id="header" style="width:100%; height: 100px;"></div>
+	<div id="ave_gantt">
+		<div class="gantt_container">
+			<div class="gantt_tree">
+				<div class="gantt_tree_head">
+					<div class="gantt_tree_head_cell gantt_tree_text">Task name</div>
+					<div class="gantt_tree_head_cell gantt_tree_start_time">Start time</div>
+					<div class="gantt_tree_head_cell gantt_tree_duration">Duration</div>
+					<div class="gantt_tree_add"></div>
+				</div>
+				<div class="gantt_tree_data"></div>
+			</div>
+			<div class="gantt_task"></div>
+			<div class="gantt_ver_scroll"></div>
+			<div class="gantt_hor_scroll"></div>
+		</div>
+	</div>
+</body>
+</html>
