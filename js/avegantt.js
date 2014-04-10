@@ -1,3 +1,4 @@
+/* global variable --------------------------------*/
 var TREE_ROOT = new TreeNode();
 	TREE_ROOT.id = '0';
 
@@ -6,11 +7,12 @@ $(function () {
 	initTaskDialog();
 });
 
+/* task dialog ------------------------------------*/
 function initTaskDialog () {
-	$('#task_dialog_btn_cancel').click(function(event) {
+	$('#task_dialog_btn_cancel').click(function (e) {
 		hideTaskDialog();
 	});
-	$('#task_dialog_btn_save').click(function(event) {
+	$('#task_dialog_btn_save').click(function (e) {
 		var text = $('#task_dialog_description').val();
 		var start_time = $('#task_dialog_start_time').val();
 		var duration = $('#task_dialog_duration').val();
@@ -23,7 +25,7 @@ function initTaskDialog () {
 		repaintTree(TREE_ROOT);
 		hideTaskDialog();
 	});
-	$('#task_dialog_btn_delete').click(function(event) {
+	$('#task_dialog_btn_delete').click(function (e) {
 		var parent_node_id = $('#parent_tree_node_id').val();
 		var parent_node = TREE_ROOT.find(parent_node_id);
 		if (parent_node != null) {
@@ -39,12 +41,25 @@ function showTaskDialog (parent_node_id) {
 	$('#task_dialog').css('left', (window.innerWidth/2-275)+'px');
 	$('#task_dialog').show();
 }
+function showEditTaskDialog (parent_node_id) {
+	var parent_node = TREE_ROOT.find(parent_node_id);
+	if (parent_node != null) {
+		parent_node.remove();
+	}
+	$('#task_dialog_description').val(parent_node.text);
+	$('#task_dialog_start_time').val(parent_node.start_time);
+	$('#task_dialog_duration').val(parent_node.duration);
+	showTaskDialog(parent_node_id);
+}
 function hideTaskDialog () {
 	$('#parent_tree_node_id').val('');
+	$('#task_dialog_description').val('');
+	$('#task_dialog_start_time').val('');
+	$('#task_dialog_duration').val('');
 	$('#task_dialog').hide();	
 }
 
-
+/* gantt tree ---------------------------------------*/
 function initGanttTree() {
 	var child_1 = new TreeNode('Office itinerancy', 'April 02', 17);
 	var child_2 = new TreeNode('Office facing', 'April 02', 8);
@@ -72,6 +87,9 @@ function initTreeEvent () {
 	});
 	$('.gantt_tree_add').click(function (e) {
 		showTaskDialog($(this).parent().attr('task_id'));
+	});
+	$('.gantt_tree_row').dblclick(function (e) {
+		showEditTaskDialog($(this).attr('task_id'));
 	});
 }
 function repaintTree (tree) {
@@ -159,7 +177,11 @@ TreeNode.prototype.find = function (node_id) {
 	if (this.id === node_id) {
 		return this;
 	}
+	var tempNode = null;
 	for (var i = 0; i < this.childTreeNodes.length; i++) {
-		return this.childTreeNodes[i].find(node_id);
+		tempNode = this.childTreeNodes[i].find(node_id);
+		if (tempNode != null) 
+			break;
 	}
+	return tempNode;
 };
